@@ -1,37 +1,42 @@
-//Stuff that needs to be imported
+//import required modules
 const express = require('express');
-const { json } = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
+
+//Load environment variables from .env file
 dotenv.config();
-
-
-//Declarations
+// Create Express app
 const app = express();
+
+//Set up port
 const PORT = process.env.PORT || 4000;
+
+//Configure CORS, json, cookies
 const corsOptions = { credentials: true, origin: process.env.URL || '*' };
 app.use(cors(corsOptions));
-app.use(json());
+app.use(express.json());
 app.use(cookieParser());
 
-
 //Connecting to Database
-const { Pool } = require("pg");
+const { Pool } = require('pg');
 const pass = require('./password');
 const pool = new Pool({
-  user: "postgres",
+  user: 'postgres',
   password: pass,
-  host: "localhost",
+  host: 'localhost',
   port: 5432,
-  database: "userDatabase"
+  database: 'userDatabase'
 });
 
+//Register Route
+app.use('/register', require('./routes/register')(pool));
+app.use('/login', require('./routes/login')(pool));
 
-//Register Route 
-const registerUser = require('./routes/registerRoute');
-app.post('/register', registerUser);
+module.exports = { app, pool };
 
 
-//Login Route
+
+//Listening
 app.listen(PORT, () => console.log(`Server is listening on ${PORT}`));
+
