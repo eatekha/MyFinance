@@ -1,4 +1,4 @@
-dataSet = [
+[
     {
       "transaction": "TIM HORTONS #0770        CAMBRIDGE    ON  (APPLE PAY) ",
       "amount": 4.16,
@@ -168,5 +168,3 @@ dataSet = [
       "keyword": "Walmart"
     }
   ]
-
-module.exports = dataSet;
