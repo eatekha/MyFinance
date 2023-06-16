@@ -166,5 +166,11 @@
       "amount": 57.23,
       "category": "Shopping",
       "keyword": "Walmart"
+    },
+    {
+      "transaction": "D2D GROUP ONEX BUS       BRAMPTON     ON",
+      "amount": 26.3,
+      "category": "Transportation", 
+      "keyword": "ONEX BUS"
     }
   ]
