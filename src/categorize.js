@@ -1,34 +1,7 @@
-const filePath = "pcbanking (3).csv";
-const fs = require("fs");
-var dataSet = require('./dataset');
-
-//Read in File
-fs.readFile(filePath, "utf-8", function (err, contents) {
-  if (err) {
-    throw err;
-  }
-
-  //Variables
-  const rows = contents.split("\n");
-  const transactions = [];
-  const amounts = [];
-  
-  //Extracting Data
-  for (let i = 1; i < rows.length - 1; i++) {
-    const columns = rows[i].split(",");
-
-    if (columns.length >= 3) {
-      const transaction = columns[1]; // Assuming the description column is the second column
-      const amount = parseFloat(columns[2].substring(1)); // Assuming the amount column is the third column
-
-      transactions.push(transaction);
-      amounts.push(amount);
-        } else {
-      throw new Error("Invalid CSV file structure. Description or amount column not found in row.");
-    }
-  }
-
-
+/*
+This Machine Learning Model employs the Naive Bayes Algorithm, to categorize each transaction into both their keywords(for frontend) and category(for data visualization) utilizing 
+the Natural.js library
+*/
 /*
 Categories = 
 {   - Food & Dining
@@ -44,21 +17,31 @@ Categories =
   }
     */
 
-const result = transactions.map((transaction, index) => {
-  return {
-    transaction: transaction,
-    amount: amounts[index]
-  };
-});
+  //import statements
+  const natural = require('../natural');
+  const keywordClassifier = new natural.BayesClassifier();
+  const categoryClassifier = new natural.BayesClassifier();
+  
+  // External Dataset
+  const data = require('./dataset.json');
+  
+  //Parameters used to classify
+  data.forEach(item => {
+    const { transaction, keyword, category, amount } = item;
+    keywordClassifier.addDocument(transaction, keyword);
+    categoryClassifier.addDocument([transaction, keyword, amount], category);
+  });
+  
+  keywordClassifier.train();
+  categoryClassifier.train();
+  
+  const transaction = "D2D GROUP ONEX BUS       BRAMPTON     ON";
+  const keyword = keywordClassifier.classify(transaction);
+  const category = categoryClassifier.classify([transaction,keyword, 23.4]);
 
-console.log(dataSet);
-});
-
-/*
-This Machine Learning Model employs the Naive Bayes Algorithm, to categorize each transaction into their 
-respective category"
-*/
+  console.log(keyword);
+  console.log(category);
 
 
 
-
+  //Save
