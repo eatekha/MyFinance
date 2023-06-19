@@ -1,4 +1,3 @@
-const { query } = require('express');
 const pool = require('../backend/server');
 const jsonData = 'src/backend/userTransactions.json'
 const fs = require('fs');
