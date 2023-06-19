@@ -3,8 +3,6 @@
 
 const filePath = "pcbanking (3).csv";
 const fs = require("fs");
-var dataSet = require('./dataset.json');
-
 //Read in File
 fs.readFile(filePath, "utf-8", function (err, contents) {
   if (err) {
@@ -39,14 +37,18 @@ const result = transactions.map((transaction, index) => {
     transaction: transaction,
     amount: amounts[index]
   };
-  });
   
-  /*
-  console.log(transactions); //To view transactions in file
-  console.log(amounts) //To view amount for each transaction
-  */
 });
+// Convert the result to JSON format
+const jsonData = JSON.stringify(result);
 
-
-
+// Save the JSON data to a file
+fs.writeFile('src/backend/userTransactions.json', jsonData, (err) => {
+  if (err) {
+    console.error('Error saving result:', err);
+  } else {
+    console.log('Result saved to userTransactions.json');
+  }
+});
+});
 

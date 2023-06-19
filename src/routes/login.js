@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 module.exports = (pool) => {
 
+
   // Login route
   router.post('/', async (req, res) => {
     const { user_name, user_password } = req.body;
@@ -11,7 +12,12 @@ module.exports = (pool) => {
 
       if (isValidUser) {
         // User credentials are valid
-        return res.status(200).json({ message: 'Login successful' });
+        user_id = await getUserID(user_name, user_password);
+        //const { setUser } = require('../backend/usermodule');
+        //setUser(user_id);
+        console.log(user_id);
+
+        return res.status(200).json({ message: 'Login successful'});
       } else {
         // User credentials are invalid
         return res.status(401).json({ error: 'Invalid username or password' });
@@ -20,6 +26,7 @@ module.exports = (pool) => {
       console.error(error);
       return res.status(500).json({ error: 'An error occurred' });
     }
+    
   });
 
 
@@ -31,6 +38,19 @@ module.exports = (pool) => {
     const result = await pool.query(query, values);
     return result.rows[0].count > 0;
   }
+  
+  async function getUserID(user_name, user_password) {
+    const query = 'SELECT user_id FROM usertable WHERE user_name = $1 AND user_password = $2';
+    const values = [user_name, user_password];
+    const result = await pool.query(query, values);
+    user_id = result.rows[0].user_id;
+    return user_id;
+  }
+  module.exports = {
+    getUserID
+  };
 
   return router;
 };
+
+

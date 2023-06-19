@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 //Connecting to Database
 const { Pool } = require('pg');
-const pass = require('./password');
+const pass = require('../password');
 const pool = new Pool({
   user: 'postgres',
   password: pass,
@@ -30,13 +30,22 @@ const pool = new Pool({
 });
 
 //Register Route
-app.use('/register', require('./routes/register')(pool));
-app.use('/login', require('./routes/login')(pool));
+app.use('/register', require('../routes/register')(pool));
+app.use('/login', require('../routes/login')(pool));
 
-module.exports = { app, pool };
+const initializePool = async () => {
+  await pool.connect();
+  console.log('Connected to the PostgreSQL database.');
+};
+
+const closePool = async () => {
+  await pool.end();
+  console.log('Closed the PostgreSQL database connection pool.');
+};
+
+module.exports = { pool, app };
 
 
-
-//Listening
+//Connection confirmation
 app.listen(PORT, () => console.log(`Server is listening on ${PORT}`));
 
