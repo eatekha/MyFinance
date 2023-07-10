@@ -57,15 +57,8 @@ This repository contains MyFinance, a personal finance management application. M
 
 5. Generate financial reports.
 
-## Contributing
+## Updates
 
-Contributions are welcome. Feel free to open issues or submit pull requests.
+The backend API is fully implemented. The existing functionality primarily revolves around the frontend user interface and basic frontend interactions.
 
-## License
 
-MyFinance is released under the MIT License.
-
-## Contact
-
-- Name: [Your Name]
-- Email: [Your Email]
