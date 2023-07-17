@@ -45,6 +45,7 @@ const closePool = async () => {
 
 module.exports = { pool, app };
 
+initializePool();
 
 //Connection confirmation
 app.listen(PORT, () => console.log(`Server is listening on ${PORT}`));

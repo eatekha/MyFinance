@@ -15,7 +15,6 @@ module.exports = (pool) => {
         user_id = await getUserID(user_name, user_password);
         //const { setUser } = require('../backend/usermodule');
         //setUser(user_id);
-        console.log(user_id);
 
         return res.status(200).json({ message: 'Login successful'});
       } else {
