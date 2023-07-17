@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
-import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
+  // Declare and initialize state variables
   const [user_name, setUsername] = useState('');
   const [user_password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
-  const [redirectToDashboard, setRedirectToDashboard] = useState(false);
+  const navigate = useNavigate();
 
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Reset the login error state on submit
     try {
       // Make API call to verify credentials
       const response = await fetch('http://localhost:4000/login', {
@@ -26,28 +31,24 @@ const Login = () => {
         // Handle the response data or perform necessary actions
         console.log('Login successful:', data);
         setLoginError(false); // Reset the login error state
-        setRedirectToDashboard(true); // Set the redirect flag to true
+        navigate('/dashboard', { replace: true }); // Redirect to "/dashboard" route
 
       } else {
         // Error handling for unsuccessful login
         console.log('Login failed');
         setLoginError(true); // Set the login error state to true
       }
-
-      // Reset form
-      /*
-      setUsername('');
-      setPassword('');
-      */
     } catch (error) {
       // Error handling for fetch or other API-related errors
       console.log('API error:', error);
     }
-  };
 
-  if (redirectToDashboard) {
-    return <redirect to="http://localhost:3000/dashboard" />;
-  }
+    //if no login error, redirect to user dashboar
+
+  };
+  
+
+
 
   return (
     <div>
