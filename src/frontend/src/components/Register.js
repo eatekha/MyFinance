@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 const Register = () => {
   const [user_name, setUsername] = useState('');
   const [user_password, setPassword] = useState('');
+  const [isRegistered, setIsRegistered] = useState(false); // Added here
+  const [alreadyRegistered, setAlreadyRegistered] = useState(false); // Added here
+
   
 
   const handleSubmit = async (e) => {
@@ -21,8 +24,14 @@ const Register = () => {
       if (response.ok) {
         // Successful register
         const data = await response.json();
+        //succesful register useState
+        setIsRegistered(true);
 
-      } else {
+      } else if (response.status === 400) {
+        // User Already Registered  
+        setAlreadyRegistered(true);
+      }
+      else {
         // Error handling for unsuccessful register
         console.log('Registration failed');
       }
@@ -65,8 +74,13 @@ const Register = () => {
         </div>
         <button type="submit">Register</button>
       </form>
+      {!alreadyRegistered && <p>Already have an account? <a href="/login">Login</a></p>}
+      {isRegistered && <p>Registration successful!</p>}
+      {alreadyRegistered && <p>Looks like you've already registered! <a href="/login">Login</a></p>}
+
     </div>
   );
 };
 
 export default Register;
+

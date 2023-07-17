@@ -4,16 +4,24 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   // Declare and initialize state variables
-  const [user_name, setUsername] = useState('');
-  const [user_password, setPassword] = useState('');
+  var [user_name, setUsername] = useState('');
+  var [user_password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const navigate = useNavigate();
 
 
-  // Handle form submission
+  // HandleSubmit Function
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    //Trim whitespace from username and password
+    var trimmedUser = user_name.trim();
+    var trimmedPass = user_password.trim();
+
+    user_name = trimmedUser;
+    user_password = trimmedPass;
     // Reset the login error state on submit
     try {
       // Make API call to verify credentials
@@ -24,6 +32,7 @@ const Login = () => {
         },
         body: JSON.stringify({ user_name, user_password }),
       });
+      
 
       if (response.ok) {
         // Successful login
@@ -42,11 +51,13 @@ const Login = () => {
       // Error handling for fetch or other API-related errors
       console.log('API error:', error);
     }
-
     //if no login error, redirect to user dashboar
-
   };
   
+
+
+
+
 
 
 
@@ -75,6 +86,7 @@ const Login = () => {
           />
         </div>
         <button type="submit">Login</button>
+        <p>Don't have an account? <a href="/register">Register</a></p>
         {loginError && <p className="error">Invalid username or password</p>}
       </form>
     </div>
