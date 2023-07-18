@@ -12,7 +12,6 @@ module.exports = (pool) => {
 
       if (isValidUser) {
         // User credentials are valid
-        user_id = await getUserID(user_name, user_password);
         //const { setUser } = require('../backend/usermodule');
         //setUser(user_id);
 
@@ -38,16 +37,7 @@ module.exports = (pool) => {
     return result.rows[0].count > 0;
   }
   
-  async function getUserID(user_name, user_password) {
-    const query = 'SELECT user_id FROM usertable WHERE user_name = $1 AND user_password = $2';
-    const values = [user_name, user_password];
-    const result = await pool.query(query, values);
-    user_id = result.rows[0].user_id;
-    return user_id;
-  }
-  module.exports = {
-    getUserID
-  };
+
 
   return router;
 };
