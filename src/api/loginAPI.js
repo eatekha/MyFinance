@@ -36,10 +36,10 @@ module.exports = (pool) => {
     const result = await pool.query(query, values);
     return result.rows[0].count > 0;
   }
-  
 
 
   return router;
+
 };
 
-
+  // Export the router and the getUserID function together.
