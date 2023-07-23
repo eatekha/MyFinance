@@ -32,6 +32,8 @@ const pool = new Pool({
 //Register Route
 app.use('/register', require('../api/registerAPI')(pool));
 app.use('/login', require('../api/loginAPI')(pool));
+app.use('/userID', require('../api/userID')(pool));
+
 
 const initializePool = async () => {
   await pool.connect();
