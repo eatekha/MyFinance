@@ -1,10 +1,13 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import React, {useState } from 'react';
-import HomePage from './components/HomePage';
-import Login from './components/LoginPage';
-import Register from './components/Register';
-import UserDashboard from './components/UserDashboard';
+import HomePage from './pages/HomePage/HomePage';
+import Login from './pages/LoginPage/LoginPage';
+import Register from './pages/RegisterPage/Register';
+import UserDashboard from './components/UserDashboard/UserDashboard';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import theme from './components/theme';
 export const Context = React.createContext(null);
+
 
 
 const App = () => {
@@ -16,6 +19,7 @@ const App = () => {
 
 
   return (
+
     <Context.Provider value={{ user_name, user_password, setUsername, setPassword }}>
       <Router>
         <Routes>
@@ -26,7 +30,9 @@ const App = () => {
           {/* Other routes and components */}
         </Routes>
       </Router>
+
     </Context.Provider>
+
   );
 };
 
