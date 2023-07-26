@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -50,10 +50,20 @@ const Login = () => {
       console.log('API error:', error);
     }
   };
+  
 
+
+   //useEffect to handle redirection when isLoggedIn becomes true
+    useEffect(() => {
+      if (localStorage.getItem('user_name') && localStorage.getItem('user_password')) {
+        navigate('/dashboard', { replace: true });
+      }
+    }, [navigate]);
+    
   //Function to sign out
 
 
+  //1. Check if user is already logged in (maybe hit back button)
 
   return (
     <div>
@@ -84,6 +94,7 @@ const Login = () => {
         {loginError && <p className="error">Invalid username or password</p>}
       </form>
     </div>
+    
   );
 };
 

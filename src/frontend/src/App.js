@@ -4,19 +4,13 @@ import HomePage from './pages/HomePage';
 import Login from './pages/LoginPage';
 import Register from './pages/Register';
 import UserDashboard from './components/UserDashboard/UserDashboard';
-export const Context = React.createContext(null);
 
 
 const App = () => {
-  var [user_name, setUsername] = useState('');
-  var [user_password, setPassword] = useState('');
-  
-
 
 
 
   return (
-    <Context.Provider value={{ user_name, user_password, setUsername, setPassword }}>
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -26,7 +20,6 @@ const App = () => {
           {/* Other routes and components */}
         </Routes>
       </Router>
-    </Context.Provider>
   );
 };
 

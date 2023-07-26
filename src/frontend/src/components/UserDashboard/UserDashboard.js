@@ -6,7 +6,6 @@ const UserDashboard = () => {
   const storedUserName = localStorage.getItem('user_name');
   const storedUserPassword = localStorage.getItem('user_password');  
   const [userID, setUserID] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
 
@@ -50,9 +49,14 @@ const UserDashboard = () => {
   const signOut = () => {
     localStorage.removeItem('user_name');
     localStorage.removeItem('user_password');
-    setIsLoggedIn(false);
     navigate('/login', { replace: true });
   };
+
+  useEffect(() => {
+    if (!localStorage.getItem('user_name') && !localStorage.getItem('user_password')) {
+      navigate('/login', { replace: true });
+    }
+  }, [navigate]);
 
 
   return (
