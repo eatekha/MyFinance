@@ -1,9 +1,9 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import React, {useState } from 'react';
-import HomePage from './components/HomePage';
-import Login from './components/LoginPage';
-import Register from './components/Register';
-import UserDashboard from './components/UserDashboard';
+import HomePage from './pages/HomePage';
+import Login from './pages/LoginPage';
+import Register from './pages/Register';
+import UserDashboard from './components/UserDashboard/UserDashboard';
 export const Context = React.createContext(null);
 
 
