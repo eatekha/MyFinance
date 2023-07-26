@@ -1,18 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const UserDashboard = () => {
   const storedUserName = localStorage.getItem('user_name');
-  const storedUserPassword = localStorage.getItem('user_password');  const [userID, setUserID] = useState(null);
+  const storedUserPassword = localStorage.getItem('user_password');  
+  const [userID, setUserID] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     retrieveUserID();
   }, []);
 
+
+
+  
+  //retreive user id
   const retrieveUserID = async () => {
     try {
-      // Retrieve data from local storage
-
-
       // Check if data is present in local storage
       if (storedUserName && storedUserPassword) {
         const response = await fetch('http://localhost:4000/userID', {
@@ -40,13 +47,25 @@ const UserDashboard = () => {
     }
   };
 
+  const signOut = () => {
+    localStorage.removeItem('user_name');
+    localStorage.removeItem('user_password');
+    setIsLoggedIn(false);
+    navigate('/login', { replace: true });
+  };
+
+
   return (
     <div>
       <h1>User Dashboard for {storedUserName}</h1>
       {userID ? <p>Welcome to your dashboard! Your User ID is {userID}</p> : <p>Loading...</p>}
-      {/* Add your dashboard content here */}
+      <div>
+      <button onClick={signOut}>Sign Out</button>
+      </div>
     </div>
   );
 };
+
+
 
 export default UserDashboard;

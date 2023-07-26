@@ -51,6 +51,10 @@ const Login = () => {
     }
   };
 
+  //Function to sign out
+
+
+
   return (
     <div>
       <h1>Login</h1>
