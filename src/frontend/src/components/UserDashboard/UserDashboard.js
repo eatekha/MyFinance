@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Sidebar from '../Sidebar/Sidebar';
 
 
 const UserDashboard = () => {
@@ -12,10 +13,6 @@ const UserDashboard = () => {
   useEffect(() => {
     retrieveUserID();
   }, []);
-
-
-
-  
   //retreive user id
   const retrieveUserID = async () => {
     try {
@@ -64,7 +61,7 @@ const UserDashboard = () => {
       <h1>User Dashboard for {storedUserName}</h1>
       {userID ? <p>Welcome to your dashboard! Your User ID is {userID}</p> : <p>Loading...</p>}
       <div>
-      <button onClick={signOut}>Sign Out</button>
+        <button onClick={signOut}>Sign Out</button>
       </div>
     </div>
   );
