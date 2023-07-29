@@ -1,43 +1,37 @@
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import React, {useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import Login from './pages/LoginPage';
-import Register from './pages/Register';
-import UserDashboard from './components/UserDashboard/UserDashboard';
-import Sidebar from './components/Sidebar/Sidebar';
-import { makeStyles } from '@material-ui/core/styles'
-import Drawer from './components/Sidebar/Drawer'
+import Register from './pages/RegisterPage';
+import UserLayout from './UserLayout'; // Import the new UserLayout component
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
-    container: {
-        display: 'flex',
-    }
-})
+  container: {
+    display: 'flex',  
+  },
+
+});
 
 const App = () => {
   const classes = useStyles();
 
-
   return (
     <Router>
+      {/* Public Routes */}
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
 
-        {/* Public Routes */}
+      {/* User-Based Routes */}
+      <div className={classes.container}>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/user/*" element={<UserLayout />} /> {/* Use UserLayout for all routes starting with /user/ */}
         </Routes>
-
-        {/* User-Based Routes */}
-        <div className={classes.container}> 
-        <Drawer variant="permanent"/>
-        <Routes>
-          <Route path="/dashboard" element={<UserDashboard />} />
-          <Route path="/sidebar" element={<Sidebar />} />
-        </Routes>
-        </div>
-
-      </Router>
+      </div>
+    </Router>
   );
 };
 

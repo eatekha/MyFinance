@@ -40,7 +40,7 @@ const Login = () => {
         console.log('Login successful:', data);
         setLoginError(false); // Reset the login error state
         saveCredentialsToLocalStorage(); // Save credentials to local storage
-        navigate('/dashboard', { replace: true }); // Redirect to "/dashboard" route
+        navigate('/user/dashboard', { replace: true }); // Redirect to "/dashboard" route
       } else {
         // Error handling for unsuccessful login
         console.log('Login failed');
@@ -56,7 +56,7 @@ const Login = () => {
    //useEffect to handle redirection when isLoggedIn becomes true
     useEffect(() => {
       if (localStorage.getItem('user_name') && localStorage.getItem('user_password')) {
-        navigate('/dashboard', { replace: true });
+        navigate('/user/dashboard', { replace: true });
       }
     }, [navigate]);
     
