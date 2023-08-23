@@ -38,6 +38,8 @@ const pool = new Pool({
 app.use('/register', require('../api/registerAPI')(pool));
 app.use('/login', require('../api/loginAPI')(pool));
 app.use('/summaryEarnings', require('../api/summaryEarningsAPI')(pool));
+app.use('/summaryExpenses', require('../api/summaryExpensesAPI')(pool));
+
 
 //app.use('/userID', require('../api/userAPI')(pool));
 
