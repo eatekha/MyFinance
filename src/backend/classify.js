@@ -1,6 +1,9 @@
 /*
 This Machine Learning Model employs the Naive Bayes Algorithm, to categorize each transaction into both their keywords(for frontend) and category(for data visualization) utilizing 
 the Natural.js library
+
+
+* Pushes results to userTransactions.json
 */
 /*
 Categories = 

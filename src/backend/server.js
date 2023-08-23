@@ -1,4 +1,9 @@
-//import required modules
+/*
+This file is the starting point of the server
+*/
+
+
+
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -32,7 +37,9 @@ const pool = new Pool({
 //Register Route
 app.use('/register', require('../api/registerAPI')(pool));
 app.use('/login', require('../api/loginAPI')(pool));
-app.use('/userID', require('../api/userAPI')(pool));
+app.use('/summaryEarnings', require('../api/summaryEarningsAPI')(pool));
+
+//app.use('/userID', require('../api/userAPI')(pool));
 
 
 const initializePool = async () => {

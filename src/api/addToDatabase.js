@@ -1,5 +1,11 @@
+/**
+ This file inputs data to my postgres Database
+ Data is taken from json file userTransactions
+ */
+
+
 const pool = require('../backend/server');
-const jsonData = 'src/backend/userTransactions.json'
+const jsonData = './src/backend/userTransactions.json'
 const fs = require('fs');
 
 // Read the JSON file

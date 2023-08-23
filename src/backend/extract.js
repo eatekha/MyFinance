@@ -1,7 +1,7 @@
 /*This file is how we'll be extracting data from the csv file. The pcbanking(3).csv is the file until we're able to take user input
 */
 
-const filePath = "pcbanking (3).csv";
+const filePath = 'src/backend/pcbanking (3).csv';
 const fs = require("fs");
 //Read in File
 fs.readFile(filePath, "utf-8", function (err, contents) {
@@ -20,7 +20,7 @@ fs.readFile(filePath, "utf-8", function (err, contents) {
 
     if (columns.length >= 3) {
       const transaction = columns[1]; // Assuming the description column is the second column
-      const amount = parseFloat(columns[2].substring(1)); // Assuming the amount column is the third column
+      const amount = parseFloat(columns[2]); // Assuming the amount column is the third column, 
 
       transactions.push(transaction);
       amounts.push(amount);

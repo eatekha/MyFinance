@@ -11,6 +11,7 @@ module.exports = (pool) => {
       const isValidUser = await validateUser(user_name, user_password);
 
       if (isValidUser) {
+
         // User credentials are valid
         //const { setUser } = require('../backend/usermodule');
         //setUser(user_id);
