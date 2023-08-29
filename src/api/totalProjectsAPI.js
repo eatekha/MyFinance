@@ -1,16 +1,22 @@
+/**
+ * This file takes exports the amount spent on transactions over the last 6 months and exports in a json file
+ */
+
+
+
+
 const express = require('express');
 const router = express.Router();
 
 module.exports = (pool) => {
     router.post('/', async (req, res) => {
-        const { user_name } = req.body;
+        const { user_name} = req.body;
         try {
             const userID = await getUserID(user_name);
-            const transactionsTotal = await getTotalEarnings(userID);
+            const transactionTotal = await getTransactionTotal(userID);
+            
+            return res.status(200).json({transactions: transactionTotal});
 
-            if (transactionsTotal !== 0) {return res.status(200).json({ message: transactionsTotal});}
-
-            else {return res.status(200).json({ message: '0'});}
 
           } catch (error) {
             res.status(500).json({ error: 'Internal server error' });
@@ -42,12 +48,14 @@ module.exports = (pool) => {
        * @returns 
        */
 
-    async function getTotalEarnings(userid) {
-        const query = 'SELECT SUM(amount) AS total_positive_amount FROM transactions WHERE user_id= $1 AND amount > 0;';
+    async function getTransactionTotal(userid) {
+        const query = 'SELECT COUNT(*) FROM transactions WHERE user_id= $1;';
         const values = [userid];
         const result = await pool.query(query, values);
         return result.rows[0];
       }
+
+
       return router;
 }
 

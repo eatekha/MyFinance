@@ -62,5 +62,6 @@ Categories =
   
     // Write the modified data back to the JSON file
     fs.writeFileSync(filePath, JSON.stringify(existingData));
+    console.log('userTransactions.json Updated');
     }
   

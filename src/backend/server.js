@@ -37,8 +37,22 @@ const pool = new Pool({
 //Register Route
 app.use('/register', require('../api/registerAPI')(pool));
 app.use('/login', require('../api/loginAPI')(pool));
+app.use('/summaryTransactions', require('../api/summaryTransactionsAPI')(pool));
+app.use('/transactionsChart', require('../api/transactionsChartAPI')(pool));
+app.use('/totalProjects', require('../api/totalProjectsAPI')(pool));
+app.use('/pieChart', require('../api/pieChartAPI')(pool));
+app.use('/insert', require('../api/insertAPI')(pool));
+app.use('/transactionTable', require('../api/transactionTableAPI')(pool));
+
+
+
+
+/*app.use('/transactionsChart', require('../api/transactionsChartAPI')(pool));
+
 app.use('/summaryEarnings', require('../api/summaryEarningsAPI')(pool));
 app.use('/summaryExpenses', require('../api/summaryExpensesAPI')(pool));
+app.use('/transactionNumber', require('../api/transactionNumberAPI')(pool));
+*/
 
 
 //app.use('/userID', require('../api/userAPI')(pool));

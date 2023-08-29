@@ -1,4 +1,5 @@
 /*This file is how we'll be extracting data from the csv file. The pcbanking(3).csv is the file until we're able to take user input
+This edits files in userTransactions.json
 */
 
 const filePath = 'src/backend/pcbanking (3).csv';
@@ -10,18 +11,25 @@ fs.readFile(filePath, "utf-8", function (err, contents) {
   }
 
   //Variables
+  var monthsArr = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const rows = contents.split("\n");
   const transactions = [];
   const amounts = [];
+  const dates = [];
+  const months = [];
   
   //Extracting Data
   for (let i = 1; i < rows.length - 1; i++) {
     const columns = rows[i].split(",");
 
     if (columns.length >= 3) {
+      const date = columns[0];
+      const month = monthsArr[parseFloat(date.split('/')[0]) - 1];
       const transaction = columns[1]; // Assuming the description column is the second column
       const amount = parseFloat(columns[2]); // Assuming the amount column is the third column, 
 
+      dates.push(date);
+      months.push(month);
       transactions.push(transaction);
       amounts.push(amount);
         } else {
@@ -35,7 +43,9 @@ fs.readFile(filePath, "utf-8", function (err, contents) {
 const result = transactions.map((transaction, index) => {
   return {
     transaction: transaction,
-    amount: amounts[index]
+    amount: amounts[index],
+    date: dates[index],
+    month: months[index]
   };
   
 });
