@@ -41,8 +41,10 @@ app.use('/summaryTransactions', require('../api/summaryTransactionsAPI')(pool));
 app.use('/transactionsChart', require('../api/transactionsChartAPI')(pool));
 app.use('/totalProjects', require('../api/totalProjectsAPI')(pool));
 app.use('/pieChart', require('../api/pieChartAPI')(pool));
-app.use('/insert', require('../api/insertAPI')(pool));
+app.use('/insert', require('../api/insertAPI.js')(pool));
 app.use('/transactionTable', require('../api/transactionTableAPI')(pool));
+app.use('/upload', require('../api/uploadAPI.js')(pool));
+
 
 
 

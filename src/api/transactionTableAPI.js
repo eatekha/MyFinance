@@ -47,7 +47,7 @@ module.exports = (pool) => {
        */
 
     async function getRecentTransactions(userid) {
-        const query = 'SELECT transaction, keyword, date, category, month, amount FROM transactions WHERE user_id=$1 ORDER BY date DESC LIMIT 50;';
+        const query = 'SELECT transaction, keyword, date, category, month, amount, transaction_id FROM transactions WHERE user_id=$1 ORDER BY date DESC LIMIT 50;';
         const values = [userid];
         const result = await pool.query(query, values);
         return result.rows;
