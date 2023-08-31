@@ -15,130 +15,109 @@
 //imports/reqs
 const express = require('express');
 const router = express.Router();
-const fs = require("fs");
+const multer = require('multer'); // Import multer
+const fs = require('fs');
 const fileToWrite = 'src/backend/userTransactions.json';
 const natural = require('../../natural/lib/natural');
 
-
 module.exports = (pool) => {
+  // Set up multer storage
+  const storage = multer.memoryStorage(); // Store uploaded files in memory
+  const upload = multer({ storage: storage });
 
+  router.post('/', upload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded.' });
+      }
 
-  router.post('/', async (req, res) => {
-    const { user_name, fileToRead} = req.body;
-    
+      // Convert buffer to string (CSV content)
+      const contents = req.file.buffer.toString();
 
-try{
+      // CSV processing
+      const monthsArr = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      const rows = contents.split("\n");
+      const transactions = [];
+      const amounts = [];
+      const dates = [];
+      const months = [];
 
-// Extracting data from csv file
-fs.readFile(fileToRead, "utf-8", function (err, contents) {
-  if (err) {
-    throw err;
-  }
+      for (let i = 1; i < rows.length - 1; i++) {
+        const columns = rows[i].split(",");
 
-  const monthsArr = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  const rows = contents.split("\n");
-  const transactions = [];
-  const amounts = [];
-  const dates = [];
-  const months = [];
+        if (columns.length >= 3) {
+          const date = columns[0];
+          const month = monthsArr[parseFloat(date.split('/')[0]) - 1];
+          const transaction = columns[1];
+          const amount = parseFloat(columns[2]);
 
-  for (let i = 1; i < rows.length - 1; i++) {
-    const columns = rows[i].split(",");
+          dates.push(date);
+          months.push(month);
+          transactions.push(transaction);
+          amounts.push(amount);
+        } else {
+          throw new Error("Invalid CSV file structure. Description or amount column not found in row.");
+        }
+      }
 
-    if (columns.length >= 3) {
-      const date = columns[0];
-      const month = monthsArr[parseFloat(date.split('/')[0]) - 1];
-      const transaction = columns[1];
-      const amount = parseFloat(columns[2]);
+      const result = transactions.map((transaction, index) => {
+        return {
+          transaction: transaction,
+          amount: amounts[index],
+          date: dates[index],
+          month: months[index]
+        };
+      });
 
-      dates.push(date);
-      months.push(month);
-      transactions.push(transaction);
-      amounts.push(amount);
-    } else {
-      throw new Error("Invalid CSV file structure. Description or amount column not found in row.");
+      const jsonData = JSON.stringify(result);
+
+      fs.writeFile(fileToWrite, jsonData, (err) => {
+        if (err) {
+          console.error('Error saving result:', err);
+        } else {
+          console.log('Result saved to ' + fileToWrite);
+          performClassificationAndAddKeyword();
+        }
+      });
+
+      function performClassificationAndAddKeyword() {
+        const keywordClassifier = new natural.BayesClassifier();
+        const categoryClassifier = new natural.BayesClassifier();
+
+        const data = require('../backend/learning/dataset.json');
+
+        data.forEach(item => {
+          const { transaction, keyword, category, amount } = item;
+          keywordClassifier.addDocument(transaction, keyword);
+          categoryClassifier.addDocument([transaction, keyword, amount], category);
+        });
+
+        keywordClassifier.train();
+        categoryClassifier.train();
+
+        addKeywordToJSON(keywordClassifier, categoryClassifier);
+      }
+
+      function addKeywordToJSON(keywordClassifier, categoryClassifier) {
+        const existingData = JSON.parse(fs.readFileSync(fileToWrite));
+
+        existingData.forEach((obj) => {
+          const transaction = obj.transaction;
+          const keyword = keywordClassifier.classify(transaction);
+          const amount = obj.amount;
+          obj.keyword = keyword;
+          obj.category = categoryClassifier.classify([transaction, keyword, amount]);
+        });
+
+        fs.writeFileSync(fileToWrite, JSON.stringify(existingData));
+        console.log('userTransactions.json Updated');
+        return res.status(200).json({ message: 'Transactions inserted successfully' });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      return res.status(500).json({ message: 'Error mate' });
     }
-  }
-
-  const result = transactions.map((transaction, index) => {
-    return {
-      transaction: transaction,
-      amount: amounts[index],
-      date: dates[index],
-      month: months[index]
-    };
   });
 
-  const jsonData = JSON.stringify(result);
-
-  fs.writeFile(fileToWrite, jsonData, (err) => {
-    if (err) {
-      console.error('Error saving result:', err);
-    } else {
-      console.log('Result saved to ' + fileToWrite);
-      // Proceed to classification and addKeywordToJSON
-      performClassificationAndAddKeyword();
-    }
-  });
-});
-
-function performClassificationAndAddKeyword() {
-  const keywordClassifier = new natural.BayesClassifier();
-  const categoryClassifier = new natural.BayesClassifier();
-
-  const data = require('../backend/learning/dataset.json');
-
-  data.forEach(item => {
-    const { transaction, keyword, category, amount } = item;
-    keywordClassifier.addDocument(transaction, keyword);
-    categoryClassifier.addDocument([transaction, keyword, amount], category);
-  });
-
-  keywordClassifier.train();
-  categoryClassifier.train();
-
-  addKeywordToJSON(keywordClassifier, categoryClassifier);
-}
-
-function addKeywordToJSON(keywordClassifier, categoryClassifier) {
-  const existingData = JSON.parse(fs.readFileSync(fileToWrite));
-
-  existingData.forEach((obj) => {
-    const transaction = obj.transaction;
-    const keyword = keywordClassifier.classify(transaction);
-    const amount = obj.amount;
-    obj.keyword = keyword;
-    obj.category = categoryClassifier.classify([transaction, keyword, amount]);
-  });
-
-  fs.writeFileSync(fileToWrite, JSON.stringify(existingData));
-  console.log('userTransactions.json Updated');
-  return res.status(200).json({ message: 'Transactions inserted successfully' });
-}
-}
-catch(error){
-  return res.status(500).json({ message: 'Error mate' });
-}
-
-
-async function getUserID(username) {
-  const query = 'SELECT user_id FROM usertable WHERE user_name = $1;';
-  const values = [username];
-  
-  try {
-    const result = await pool.query(query, values);
-    if (result.rows.length > 0) {
-      return result.rows[0].user_id;
-    } else {
-      return null; // Return null if no matching user found
-    }
-  } catch (error) {
-    console.error("Error fetching user ID:", error);
-    throw error;
-  }
-}
-
-  })
-
-return router;
+  return router;
 };
