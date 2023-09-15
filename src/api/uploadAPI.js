@@ -33,6 +33,8 @@ module.exports = (pool) => {
 
       // Convert buffer to string (CSV content)
       const contents = req.file.buffer.toString();
+      console.log('CSV Contents:', contents);
+
 
       // CSV processing
       const monthsArr = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -42,12 +44,19 @@ module.exports = (pool) => {
       const dates = [];
       const months = [];
 
-      for (let i = 1; i < rows.length - 1; i++) {
+      for (let i = 0; i < rows.length - 1; i++) {
         const columns = rows[i].split(",");
 
         if (columns.length >= 3) {
-          const date = columns[0];
-          const month = monthsArr[parseFloat(date.split('/')[0]) - 1];
+          const rawDate = columns[0];
+          const date = rawDate.substring(1);
+          console.log(date);
+          const extractedValue = date.split('/')[0];
+          const month = monthsArr[parseFloat(extractedValue) - 1];
+          
+          
+
+
           const transaction = columns[1];
           const amount = parseFloat(columns[2]);
 

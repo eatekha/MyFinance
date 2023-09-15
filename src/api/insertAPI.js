@@ -11,6 +11,7 @@ module.exports = (pool) => {
     router.post('/', async (req, res) => {
         try {
             const { user_name } = req.body;
+            console.log(user_name);
     
             const userID = await getUserID(user_name);
     
