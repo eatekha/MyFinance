@@ -29,7 +29,7 @@ const pass = require('../password');
 const pool = new Pool({
   user: 'postgres',
   password: pass,
-  host: 'localhost',
+  host: 'localhost', //DO NOT PUSH
   port: 5432,
   database: 'userDatabase'
 });
