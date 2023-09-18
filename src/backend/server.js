@@ -25,7 +25,7 @@ app.use(cookieParser());
 
 //Connecting to Database
 const { Pool } = require('pg');
-const pass = require('../password');
+const pass = process.env.DB_PASSWORD;
 const pool = new Pool({
   user: 'postgres',
   password: pass,
@@ -47,17 +47,6 @@ app.use('/upload', require('../api/uploadAPI.js')(pool));
 
 
 
-
-
-/*app.use('/transactionsChart', require('../api/transactionsChartAPI')(pool));
-
-app.use('/summaryEarnings', require('../api/summaryEarningsAPI')(pool));
-app.use('/summaryExpenses', require('../api/summaryExpensesAPI')(pool));
-app.use('/transactionNumber', require('../api/transactionNumberAPI')(pool));
-*/
-
-
-//app.use('/userID', require('../api/userAPI')(pool));
 
 
 const initializePool = async () => {
