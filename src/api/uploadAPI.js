@@ -18,7 +18,7 @@ const router = express.Router();
 const multer = require('multer'); // Import multer
 const fs = require('fs');
 const fileToWrite = 'src/backend/userTransactions.json';
-const natural = require('../../natural/lib/natural');
+const natural = require('natural');
 
 module.exports = (pool) => {
   // Set up multer storage
