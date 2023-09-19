@@ -56,5 +56,5 @@ This repository contains MyFinance, a personal finance management application. M
 
 ## Updates
 
-Final Version, almost ready to be deployed
+Final Version, almost ready to be deployed (Sept 19/23)
 
