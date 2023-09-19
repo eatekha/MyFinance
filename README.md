@@ -1,6 +1,9 @@
 # MyFinance
 
 This repository contains MyFinance, a personal finance management application. MyFinance helps you track your income, expenses, and budget to gain better control of your finances.
+![image](https://github.com/eatekha/MyFinance/assets/77559961/b7f17443-daa2-4c65-b782-ab58714e060a)
+![image](https://github.com/eatekha/MyFinance/assets/77559961/d60f4a71-346d-4630-94e5-26b63ae245f3)
+
 
 ## Features
 
