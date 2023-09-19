@@ -27,11 +27,10 @@ app.use(cookieParser());
 const { Pool } = require('pg');
 const pass = process.env.DB_PASSWORD;
 const pool = new Pool({
-  user: 'postgres',
-  password: pass,
-  host: 'localhost', //DO NOT PUSH
-  port: 5432,
-  database: 'userDatabase'
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 //Register Route
