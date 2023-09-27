@@ -24,14 +24,38 @@ app.use(express.json());
 app.use(cookieParser());
 
 //Connecting to Database
+
 const { Pool } = require('pg');
+/*
 const pass = process.env.DB_PASSWORD;
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
 });
+
+*/
+/*
+const pass = require('../password');
+const pool = new Pool({
+  user: 'postgres',
+  password: pass,
+  host: 'localhost',
+  port: 5432,
+  database: 'userDatabase'
+});
+*/
+
+const pool = new Pool({
+  user: 'postgres',
+  password: process.env.G_PASSWORD,
+  host: process.env.G_HOST,
+  port: 5432,
+  database: 'postgres'
+});
+
 
 //Register Route
 app.use('/register', require('../api/registerAPI')(pool));
