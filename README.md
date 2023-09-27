@@ -2,7 +2,9 @@
 
 This repository contains MyFinance, a personal finance management application. MyFinance helps you track your income, expenses, and budget to gain better control of your finances.
 
-![image](https://github.com/eatekha/MyFinance/assets/77559961/96606290-5d2b-40b8-815f-6861b9d8b766)
+![image](https://github.com/eatekha/MyFinance/assets/77559961/992ad40a-8caf-4017-8519-a0c6456f1fcf)
+![image](https://github.com/eatekha/MyFinance/assets/77559961/5ff9a6e5-29cd-434e-90e5-47e308bf94ee)
+
 
 
 ## Features
@@ -32,15 +34,7 @@ This repository contains MyFinance, a personal finance management application. M
    npm install
    ```
 
-4. Set up the database connection in `config/database.js`.
-
-5. Run the database migrations:
-
-   ```
-   npx sequelize-cli db:migrate
-   ```
-
-6. Start the application:
+4. Start the application:
 
    ```
    npm start
@@ -62,6 +56,5 @@ This repository contains MyFinance, a personal finance management application. M
 
 ## Updates
 
-The backend API is fully implemented. The existing functionality primarily revolves around the frontend user interface and basic frontend interactions.
-
+Final Version, almost ready to be deployed (Sept 19/23)
 
