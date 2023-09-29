@@ -27,15 +27,15 @@ app.use(cookieParser());
 
 const { Pool } = require('pg');
 
-/*
-const pass = process.env.DB_PASSWORD;
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
 });
-*/
+
+/*
 
 
 const pass = require('../password');
@@ -46,7 +46,7 @@ const pool = new Pool({
   port: 5432,
   database: 'userDatabase'
 });
-/*
+
 
 
 const pool = new Pool({
