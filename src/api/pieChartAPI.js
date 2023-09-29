@@ -7,7 +7,7 @@ const express = require('express');
 const router = express.Router();
 module.exports = (pool) => {
   router.post('/', async (req, res) => {
-    const { user_name } = req.body;
+    const { user_id } = req.body;
 
     const categories = [
       'Food & Dining',
@@ -24,8 +24,7 @@ module.exports = (pool) => {
   
     var dict = {};
 
-    const userID = await getUserID(user_name);
-    var  totalAmount = await getTotal(userID);
+    var  totalAmount = await getTotal(user_id);
     totalAmount = totalAmount.sum;
     if (totalAmount==0) totalAmount = -1;
 
@@ -34,7 +33,7 @@ module.exports = (pool) => {
       const query = `
       select SUM(transactions.amount) as transaction_sum from transactions where amount < 0 and user_id=$2 AND category =$1;
       `;
-      const values = [category, userID];
+      const values = [category, user_id];
   
       pool.query(query, values, (err, result) => {
         if (err) {
@@ -74,27 +73,11 @@ module.exports = (pool) => {
 
     calculateCategoryPercentages(0);
 
-    async function getUserID(username) {
-      const query = 'SELECT user_id FROM usertable WHERE user_name = $1;';
-      const values = [username];
-      
-      try {
-        const result = await pool.query(query, values);
-        if (result.rows.length > 0) {
-          return result.rows[0].user_id;
-        } else {
-          return null; // Return null if no matching user found
-        }
-      } catch (error) {
-        console.error("Error fetching user ID:", error);
-        throw error;
-      }
-    }
 
-    async function getTotal(userID){
+    async function getTotal(user_id){
 
       const query = 'select SUM(transactions.amount) from transactions where amount < 0 and user_id=$1';
-      const values = [userID];
+      const values = [user_id];
       const result = await pool.query(query, values);
       return result.rows[0];
 
