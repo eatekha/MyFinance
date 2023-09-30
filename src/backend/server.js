@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 //Connecting to Database
-/*
+
 
 
 const { Pool } = require('pg');
@@ -37,7 +37,7 @@ const pool = new Pool({
 });
 
 
-*/
+/*
 
 const pass = require('../password');
 const pool = new Pool({
