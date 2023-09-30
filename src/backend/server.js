@@ -24,9 +24,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 //Connecting to Database
+/*
+
 
 const { Pool } = require('pg');
-
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -35,8 +36,8 @@ const pool = new Pool({
   }
 });
 
-/*
 
+*/
 
 const pass = require('../password');
 const pool = new Pool({
@@ -46,7 +47,7 @@ const pool = new Pool({
   port: 5432,
   database: 'userDatabase'
 });
-
+/*
 
 
 const pool = new Pool({
