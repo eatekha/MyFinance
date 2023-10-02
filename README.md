@@ -14,35 +14,12 @@ This repository contains MyFinance, a personal finance management application. M
 - Budget Planning
 - Financial Reports
 
-## Installation
 
-1. Clone this repository:
-
-   ```
-   git clone https://github.com/eatekha/MyFinance.git
-   ```
-
-2. Navigate to the project directory:
-
-   ```
-   cd MyFinance
-   ```
-
-3. Install the necessary dependencies:
-
-   ```
-   npm install
-   ```
-
-4. Start the application:
-
-   ```
-   npm start
-   ```
-
-7. Access MyFinance at `http://localhost:3000`.
 
 ## Usage
+To Demo App, use Login: 
+Username=Demo
+Password=MyFinance
 
 1. Create a new account or log in.
 
