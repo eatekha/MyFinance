@@ -1,4 +1,6 @@
-[# MyFinance
+# MyFinance
+
+[# Link
 ](https://my-finance-landing-page-7367ccd5cd6d.herokuapp.com/)
 This repository contains MyFinance, a personal finance management application. MyFinance helps you track your income, expenses, and budget to gain better control of your finances.
 
